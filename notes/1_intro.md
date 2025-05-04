@@ -118,6 +118,41 @@ COPY pipeline.py pipeline.py
 ENTRYPOINT ["python", "pipeline.py"]
 ```
 
+## 📌 Notes: Understanding `sys.argv` in Python
+
+### ✅ What is `sys.argv`?
+
+- `sys.argv` is a **Python list** that holds the arguments you pass to the script from the command line.
+- Example:
+    ```bash
+    python pipeline.py 2021-01-15
+    ```
+    → Inside the script:
+    ```python
+    import sys
+    print(sys.argv)
+    ```
+    will output:
+    ```
+    ['pipeline.py', '2021-01-15']
+    ```
+
+---
+
+### ✅ Why do we use `sys.argv`?
+
+- To **make Python scripts dynamic** without hardcoding values.
+- Instead of editing the code every time you change input (like a date or file name), you pass it as an argument when you run the script.
+
+---
+
+### ✅ Example without `sys.argv`
+
+```python
+day = '2021-01-15'
+print(f"Running job for {day}")
+
+
 Let's build the image:
 
 
