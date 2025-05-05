@@ -160,6 +160,7 @@ Let's build the image:
 docker build -t test:pandas .
 ```
 * The image name will be `test` and its tag will be `pandas`. If the tag isn't specified it will default to `latest`.
+* The . tells this directory's dockerfile.
 
 We can now run the container and pass an argument to it, so that our pipeline will receive it:
 
@@ -223,6 +224,31 @@ We will use data from the [NYC TLC Trip Record Data website](https://www1.nyc.go
 >Note: knowledge of Jupyter Notebook, Python environment management and Pandas is asumed in these notes. Please check [this link](https://gist.github.com/ziritrion/9b80e47956adc0f20ecce209d494cd0a#pandas) for a Pandas cheatsheet and [this link](https://gist.github.com/ziritrion/8024025672ea92b8bdeb320d6015aa0d) for a Conda cheatsheet for Python environment management.
 
 Check the completed `upload-data.ipynb` [in this link](../1_intro/upload-data.ipynb) for a detailed guide. Feel free to copy the file to your work directory; in the same directory you will need to have the CSV file linked above and the `ny_taxi_postgres_data` subdirectory.
+
+To convert the datframe from csv to DDL, we use
+```bash pd.io.sql.get_schema(df, name = "")```
+This gives you how your schema should look like.
+
+After getting the schema we can change the variable types if they are wrong for eg: datetime etc.
+<img width="740" alt="Screenshot 2025-05-05 at 5 12 50 PM" src="https://github.com/user-attachments/assets/0d6a5daf-87e8-40ad-bd8b-ae071a60c15e" />
+
+SQLAlchemy is a Python library that connects Python to SQL databases.
+
+It acts as a bridge between Python and Postgres.
+
+You can insert and query data easily from Pandas without writing raw SQL.
+
+Example:
+``` bash engine = create_engine('postgresql://root:root@localhost:5432/ny_taxi')```
+
+# What does df.head(0).to_sql(...) do?
+```bash df.head(0).to_sql(name='yellow_taxi_data', con=engine, if_exists='replace')```
+Creates an empty table in Postgres with only the column names.
+
+Useful to set up the table schema before inserting data.
+
+
+
 
 ## Connecting pgAdmin and Postgres with Docker networking
 
